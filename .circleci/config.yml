@@ -5,7 +5,7 @@ workflows:
   version: 2
   main:
     jobs:
-      - node:
+      - react-native/node:
           name: node
           build: 
             - run:
