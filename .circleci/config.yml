@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  react-native: echobind/react-native@0.1.0
+  react-native: echobind/react-native@0.3.1
 workflows:
   version: 2
   main:
