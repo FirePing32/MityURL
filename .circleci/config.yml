@@ -4,6 +4,12 @@ orbs:
   android: circleci/android@0.2.1
 
 jobs:
+  install:
+    docker:
+      - image: cimg/node:15.2.1
+    steps:
+      - checkout
+      - run: npm install
   build:
     executor: android/android
 
