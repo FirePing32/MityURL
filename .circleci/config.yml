@@ -14,17 +14,6 @@ jobs:
       - persist_to_workspace:
           paths: .
           root: .
-  fastlane_release:
-    executor: rn/linux_js
-    steps:
-      - attach_workspace:
-          at: .
-      - run:
-          command: yarn install --ignore-engines --non-interactive --cache-folder ~/.cache/yarn
-          name: Yarn install
-      - run:
-          command: bundle exec fastlane android release
-          name: Run Fastlane
 orbs:
   rn: react-native-community/react-native@1.0.0
 version: 2.1
@@ -39,10 +28,4 @@ workflows:
           build_type: release
           requires:
             - analyse_js
-      - rn/android_test:
-          requires:
-            - rn/android_build
-      - fastlane_release:
-          requires:
-            - rn/android_test
             
