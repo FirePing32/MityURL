@@ -1,33 +1,12 @@
-version: 2.1
-orbs:
-  react-native: echobind/react-native@0.1.0
-workflows:
-  version: 2
-  main:
-    jobs:
-      - react-native/node:
-          name: node
-          build: 
-            - run:
-              name: Install dependencies
-              command: npm install
-      - react-native/android:
-          name: android
-          requires:
-            - node
-          build:
-            - run:
-                name: fastlane adhoc android
-                working_directory: android
-                command: |
-                  bundle exec fastlane adhoc build_number:${CIRCLE_BUILD_NUM}
-      - react-native/ios:
-          name: ios
-          requires:
-            - node
-          build:
-            - run:
-                name: fastlane adhoc ios
-                working_directory: ios
-                command: |
-                  bundle exec fastlane adhoc build_number:${CIRCLE_BUILD_NUM}
+jobs:
+  build:
+    docker:
+      - image: cimg/node:15.2.1
+    steps:
+      - checkout
+      - run: 
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: Build android
+          command: cd android && ./gradlew assembleRelease
