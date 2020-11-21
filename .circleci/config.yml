@@ -4,7 +4,9 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-      - rn/npm_install
+      - run:
+          command: yarn install --ignore-engines --non-interactive --cache-folder ~/.cache/yarn
+          name: Yarn install
       - run:
           command: yarn eslint
           name: Run ESLint
