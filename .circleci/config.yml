@@ -4,7 +4,7 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-      - rn/yarn_install
+      - rn/npm_install
       - run:
           command: yarn eslint
           name: Run ESLint
