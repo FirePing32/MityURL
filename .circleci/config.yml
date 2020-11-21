@@ -50,3 +50,4 @@ workflows:
       - fastlane_release:
           requires:
             - rn/android_test
+            
