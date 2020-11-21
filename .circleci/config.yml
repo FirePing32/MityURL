@@ -5,8 +5,12 @@ workflows:
   version: 2
   main:
     jobs:
-      - react-native/node:
+      - node:
           name: node
+          build: 
+            - run:
+              name: Install dependencies
+              command: npm install
       - react-native/android:
           name: android
           requires:
