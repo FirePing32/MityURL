@@ -5,14 +5,14 @@ import firebase from 'firebase';
 import Modal from 'react-native-modal';
 
 var config = {
-    apiKey: "API_KEY",
-    authDomain: "AUTH_DOMAIN",
-    databaseURL: "DATABASE_URL",
-    projectId: "PROJECT_ID",
-    storageBucket: "STORAGE_BUCKET",
-    messagingSenderId: "MESSAGING_SENDER_ID",
-    appId: "APP_ID",
-    measurementId: "MEASUREMENT_ID"
+    apiKey: "process.env.API_KEY",
+    authDomain: "process.env.AUTH_DOMAIN",
+    databaseURL: "process.env.DATABASE_URL",
+    projectId: "process.env.PROJECT_ID",
+    storageBucket: "process.env.STORAGE_BUCKET",
+    messagingSenderId: "process.env.MESSAGING_SENDER_ID",
+    appId: "process.env.APP_ID",
+    measurementId: "process.env.MEASUREMENT_ID"
 };
 
 if (!firebase.apps.length) {
@@ -57,7 +57,7 @@ export default class App extends React.Component {
 
   push_data = () => {
     firebase.database().ref('urls/').child(this.random_key()).set(this.state.url);
-    this.state.redirect_url = "https://MY-APP-NAME.vercel.app/" + this.state.url_id;
+    this.state.redirect_url = "https://" + process.env.MY-APP-NAME + ".vercel.app/" + this.state.url_id;
     this.textInput.clear()
     this.toggleModal()
   }

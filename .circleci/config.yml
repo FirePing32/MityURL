@@ -1,0 +1,52 @@
+jobs:
+  analyse_js:
+    executor: rn/linux_js
+    steps:
+      - attach_workspace:
+          at: .
+      - rn/yarn_install
+      - run:
+          command: yarn eslint
+          name: Run ESLint
+      - run:
+          command: yarn flow
+          name: Flow
+      - run:
+          command: yarn jest
+          name: Jest
+  checkout_code:
+    executor: rn/linux_js
+    steps:
+      - checkout
+      - persist_to_workspace:
+          paths: .
+          root: .
+  fastlane_release:
+    executor: rn/linux_js
+    steps:
+      - attach_workspace:
+          at: .
+      - rn/yarn_install
+      - run:
+          command: bundle exec fastlane android release
+          name: Run Fastlane
+orbs:
+  rn: react-native-community/react-native@1.0.0
+version: 2.1
+workflows:
+  test:
+    jobs:
+      - checkout_code
+      - analyse_js:
+          requires:
+            - checkout_code
+      - rn/android_build:
+          build_type: release
+          requires:
+            - analyse_js
+      - rn/android_test:
+          requires:
+            - rn/android_build
+      - fastlane_release:
+          requires:
+            - rn/android_test
