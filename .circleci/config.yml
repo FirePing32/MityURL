@@ -1,19 +1,17 @@
 version: 2.1
+
 orbs:
-  react-native: echobind/react-native@0.3.1
-workflows:
-  version: 2
-  main:
-    jobs:
-      - react-native/node:
-          name: node
-      - react-native/android:
-          name: android
-          requires:
-            - node
-          build:
-            - run:
-                name: Build
-                working_directory: android
-                command: |
-                  ./gradlew assembleRelease
+  android: circleci/android@0.2.1
+
+jobs:
+  build:
+    docker:
+      - image: cimg/node:15.2.1
+    executor: android/android
+
+    steps:
+      - checkout
+      - run: npm install
+      - run:
+          name: Build
+          command: cd android && ./gradlew assembleRelease
