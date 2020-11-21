@@ -1,25 +1,17 @@
 version: 2.1
-workflows:
-  version: 2
-  main:
-    jobs:
-      install:
-        name: install
-        docker:
-          - image: cimg/node:15.2.1
-        steps:
-          - checkout
-          - run: 
-              name: Install dependencies
-              command: npm install
-      android:
-        name: android
-        requires:
-            - install
-        docker:
-          - image: cimg/openjdk:15.0.1
-        steps:
-          - checkout
-          - run:
-              name: Build
-              command: cd android && ./gradlew assembleRelease
+
+orbs:
+  android: circleci/android@0.2.1
+
+jobs:
+  build:
+    executor: android/android
+
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: Build
+          command: cd android && ./gradlew assembleRelease
