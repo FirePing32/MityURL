@@ -1,31 +1,29 @@
-jobs:
-  analyse_js:
-    executor: rn/linux_js
-    steps:
-      - attach_workspace:
-          at: .
-      - run:
-          command: yarn install --ignore-engines --non-interactive --cache-folder ~/.cache/yarn
-          name: Yarn install
-  checkout_code:
-    executor: rn/linux_js
-    steps:
-      - checkout
-      - persist_to_workspace:
-          paths: .
-          root: .
-orbs:
-  rn: react-native-community/react-native@1.0.0
 version: 2.1
+orbs:
+  react-native: echobind/react-native@0.1.0
 workflows:
-  test:
+  version: 2
+  main:
     jobs:
-      - checkout_code
-      - analyse_js:
+      - react-native/node:
+          name: node
+      - react-native/android:
+          name: android
           requires:
-            - checkout_code
-      - rn/android_build:
-          build_type: release
+            - node
+          build:
+            - run:
+                name: fastlane adhoc android
+                working_directory: android
+                command: |
+                  bundle exec fastlane adhoc build_number:${CIRCLE_BUILD_NUM}
+      - react-native/ios:
+          name: ios
           requires:
-            - analyse_js
-            
+            - node
+          build:
+            - run:
+                name: fastlane adhoc ios
+                working_directory: ios
+                command: |
+                  bundle exec fastlane adhoc build_number:${CIRCLE_BUILD_NUM}
