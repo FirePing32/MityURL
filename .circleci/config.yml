@@ -7,15 +7,6 @@ jobs:
       - run:
           command: yarn install --ignore-engines --non-interactive --cache-folder ~/.cache/yarn
           name: Yarn install
-      - run:
-          command: yarn eslint
-          name: Run ESLint
-      - run:
-          command: yarn flow
-          name: Flow
-      - run:
-          command: yarn jest
-          name: Jest
   checkout_code:
     executor: rn/linux_js
     steps:
@@ -28,7 +19,9 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-      - rn/yarn_install
+      - run:
+          command: yarn install --ignore-engines --non-interactive --cache-folder ~/.cache/yarn
+          name: Yarn install
       - run:
           command: bundle exec fastlane android release
           name: Run Fastlane
