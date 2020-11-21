@@ -45,8 +45,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.package-version.outputs.version }}"
-          release_name: Release ${{ steps.package-version.outputs.version }}"
+          tag_name: v${{ steps.package-version.outputs.version }}
+          release_name: Release v${{ steps.package-version.outputs.version }}
           body: |
             ## What's new
             - Setup actions to build app for Android and iOS
