@@ -7,17 +7,11 @@ import Modal from 'react-native-modal';
 var config = {
     apiKey: process.env.API_KEY,
     authDomain: process.env.AUTH_DOMAIN,
-    databaseURL: process.env.DATABASE_URL,
     projectId: process.env.PROJECT_ID,
-    storageBucket: process.env.STORAGE_BUCKET,
     messagingSenderId: process.env.MESSAGING_SENDER_ID,
     appId: process.env.APP_ID,
     measurementId: process.env.MEASUREMENT_ID
 };
-
-if (!firebase.apps.length) {
-  firebase.initializeApp(config);
-}
 
 export default class App extends React.Component {
 
@@ -57,7 +51,7 @@ export default class App extends React.Component {
 
   push_data = () => {
     firebase.database().ref('urls/').child(this.random_key()).set(this.state.url);
-    this.state.redirect_url = "https://" + process.env.MY_APP_NAME + ".vercel.app/" + this.state.url_id;
+    this.state.redirect_url = process.env.MY_APP_NAME + ".vercel.app/" + this.state.url_id;
     this.textInput.clear()
     this.toggleModal()
   }
@@ -70,7 +64,7 @@ export default class App extends React.Component {
         <Text style={{ fontWeight: "bold", fontSize: 20 }}>MityURL - A tinyURL shortener</Text>
         </View>
         <View>
-          <Text style={{ textAlign: "center", fontSize: 15 }}>http://</Text>
+          <Text style={{ textAlign: "center", fontSize: 15 }}>'https://'</Text>
         <Input
                 placeholder='e.g. www.example.com'
                 inputContainerStyle={{ width: '80%', justifyContent: "center", alignSelf: "center" }}
@@ -90,17 +84,17 @@ export default class App extends React.Component {
         <TouchableOpacity style={styles.FacebookStyle} activeOpacity={0.5} onPress={() => Linking.openURL(this.state.redirect_url)}>
           <Image
           source={require('./assets/images/openlink.png')}
-          style={styles.ImageIconStyle}
+          style={styles.ImageStyle}
           />
         </TouchableOpacity>
         <TouchableOpacity style={styles.FacebookStyle} activeOpacity={0.5} onPress={this.onShare}>
           <Image
           source={require('./assets/images/sharelink.png')}
-          style={styles.ImageIconStyle}
+          style={styles.ImageStyle}
           />
         </TouchableOpacity>
         </View>
-          <View style={{ marginTop: 80 }}>
+          <View style={{ marginTop: 70 }}>
           <Button title="Close" type="outline" onPress={this.toggleModal} raised buttonStyle={{ borderColor: "#f0750f" }} titleStyle={{ color: "#f0750f" }} />
           </View>
         </View>
@@ -112,11 +106,11 @@ export default class App extends React.Component {
 }
 
 const styles = {
-  ImageIconStyle: {
+  ImageStyle: {
     padding: 10,
-    margin: 15,
-    height: 30,
-    width: 30,
+    margin: 10,
+    height: 25,
+    width: 25,
     resizeMode: 'contain',
     tintColor: '#f0750f'
   }
